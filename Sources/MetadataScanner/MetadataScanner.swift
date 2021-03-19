@@ -8,30 +8,29 @@
 #if os(iOS)
 
 import SwiftUI
-import AVFoundation
 
 public struct MetadataScanner: View {
     
     private static let sharedEngine: ScannerEngine? = try? .init()
     
     private let engine: ScannerEngine
-    var metadataObjectTypes: [AVMetadataObject.ObjectType]
+    var metadataObjectTypes: [ScannableObjectType]
     var scans: Bool
     
-    @Binding var scannedObject: [AVMetadataMachineReadableCodeObject]?
+    var onScannedObjectUpdate: (([ScannedMetadataObject]?) -> Void)
     
-    public init?(objectTypes: [AVMetadataObject.ObjectType], scans: Bool, scannedObject: Binding<[AVMetadataMachineReadableCodeObject]?>) {
+    public init?(objectTypes: [ScannableObjectType], scans: Bool, onScannedObjectUpdate: @escaping ([ScannedMetadataObject]?) -> Void) {
         guard let engine = Self.sharedEngine else {
             return nil
         }
         self.engine = engine
         self.metadataObjectTypes = objectTypes
         self.scans = scans
-        self._scannedObject = scannedObject
+        self.onScannedObjectUpdate = onScannedObjectUpdate
     }
     
     public var body: some View {
-        MetadataScannerPreview(engine: engine, metadataObjectTypes: metadataObjectTypes, scans: scans, scannedObject: $scannedObject)
+        MetadataScannerPreview(engine: engine, metadataObjectTypes: metadataObjectTypes, scans: scans, onUpdate: onScannedObjectUpdate)
     }
     
 }

@@ -19,7 +19,7 @@ struct MetadataScannerPreview: View {
     var scans: Bool
     @State private var displaying: Bool = false
     
-    @Binding var scannedObject: [AVMetadataMachineReadableCodeObject]?
+    var onUpdate: ([ScannedMetadataObject]?) -> Void
     
     private var configuredEngine: ScannerEngine {
         engine
@@ -29,7 +29,7 @@ struct MetadataScannerPreview: View {
     
     var body: some View {
         
-        ScannerEngineView(engine: configuredEngine, scannedObject: $scannedObject)
+        ScannerEngineView(engine: configuredEngine, onUpdate: onUpdate)
             .onAppear {
                 displaying = true
             }
@@ -45,10 +45,10 @@ struct ScannerEngineView: UIViewRepresentable {
     
     @ObservedObject var engine: ScannerEngine
     
-    @Binding var scannedObject: [AVMetadataMachineReadableCodeObject]?
+    var onUpdate: ([ScannedMetadataObject]?) -> Void
     
     func makeUIView(context: Context) -> ScannerEngineUIView {
-        ScannerEngineUIView(engine: engine, scannedObject: $scannedObject)
+        ScannerEngineUIView(engine: engine, onUpdate: onUpdate)
     }
     
     func updateUIView(_ uiView: ScannerEngineUIView, context: Context) {
@@ -64,15 +64,14 @@ final class ScannerEngineUIView: UIView {
     private let previewLayer: AVCaptureVideoPreviewLayer
     private var cancellables: Set<AnyCancellable> = []
     
-    @Binding var scannedObject: [AVMetadataMachineReadableCodeObject]?
+    private var onUpdate: ([ScannedMetadataObject]?) -> Void
     
-    init(engine: ScannerEngine, scannedObject: Binding<[AVMetadataMachineReadableCodeObject]?>) {
+    init(engine: ScannerEngine, onUpdate: @escaping ([ScannedMetadataObject]?) -> Void) {
         
         self.engine = engine
         self.previewLayer = AVCaptureVideoPreviewLayer(session: engine.session)
         
-        
-        self._scannedObject = scannedObject
+        self.onUpdate = onUpdate
         
         super.init(frame: .zero)
         
@@ -107,7 +106,7 @@ final class ScannerEngineUIView: UIView {
         }
         
         engine.$readableMetadataObjects
-            .assign(to: \.scannedObject, on: self)
+            .sink(receiveValue: onUpdate)
             .store(in: &cancellables)
         
         NotificationCenter.default.publisher(for: UIDevice.orientationDidChangeNotification)

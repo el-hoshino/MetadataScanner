@@ -27,7 +27,7 @@ final class ScannerEngine: ObservableObject {
         set { metadataOutput.metadataObjectTypes = newValue }
     }
             
-    @Published var readableMetadataObjects: [AVMetadataMachineReadableCodeObject]?
+    @Published var readableMetadataObjects: [ScannedMetadataObject]?
         
     init() throws {
         
