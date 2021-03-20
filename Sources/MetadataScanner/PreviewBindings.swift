@@ -15,6 +15,7 @@ struct MetadataScannerPreview: View {
     
     @ObservedObject var engine: ScannerEngine
     
+    var videoGravity: AVLayerVideoGravity
     var metadataObjectTypes: [AVMetadataObject.ObjectType]
     var scans: Bool
     @State private var displaying: Bool = false
@@ -29,7 +30,7 @@ struct MetadataScannerPreview: View {
     
     var body: some View {
         
-        ScannerEngineView(engine: configuredEngine, onUpdate: onUpdate)
+        ScannerEngineView(engine: configuredEngine, videoGravity: videoGravity, onUpdate: onUpdate)
             .onAppear {
                 displaying = true
             }
@@ -45,14 +46,18 @@ struct ScannerEngineView: UIViewRepresentable {
     
     @ObservedObject var engine: ScannerEngine
     
+    var videoGravity: AVLayerVideoGravity
     var onUpdate: ([ScannedMetadataObject]?) -> Void
     
     func makeUIView(context: Context) -> ScannerEngineUIView {
-        ScannerEngineUIView(engine: engine, onUpdate: onUpdate)
+        let view = ScannerEngineUIView(engine: engine, onUpdate: onUpdate)
+        view.videoGravity = videoGravity
+        return view
     }
     
     func updateUIView(_ uiView: ScannerEngineUIView, context: Context) {
-        
+        uiView.onUpdate = onUpdate
+        uiView.videoGravity = videoGravity
     }
     
 }
@@ -64,7 +69,11 @@ final class ScannerEngineUIView: UIView {
     private let previewLayer: AVCaptureVideoPreviewLayer
     private var cancellables: Set<AnyCancellable> = []
     
-    private var onUpdate: ([ScannedMetadataObject]?) -> Void
+    var onUpdate: ([ScannedMetadataObject]?) -> Void
+    var videoGravity: AVLayerVideoGravity {
+        get { return previewLayer.videoGravity }
+        set { previewLayer.videoGravity = newValue }
+    }
     
     init(engine: ScannerEngine, onUpdate: @escaping ([ScannedMetadataObject]?) -> Void) {
         

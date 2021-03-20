@@ -14,23 +14,25 @@ public struct MetadataScanner: View {
     private static let sharedEngine: ScannerEngine? = try? .init()
     
     private let engine: ScannerEngine
+    var videoGravity: VideoGravity
     var metadataObjectTypes: [ScannableObjectType]
     var scans: Bool
     
     var onScannedObjectUpdate: (([ScannedMetadataObject]?) -> Void)
     
-    public init?(objectTypes: [ScannableObjectType], scans: Bool, onScannedObjectUpdate: @escaping ([ScannedMetadataObject]?) -> Void) {
+    public init?(videoGravity: VideoGravity, objectTypes: [ScannableObjectType], scans: Bool, onScannedObjectUpdate: @escaping ([ScannedMetadataObject]?) -> Void) {
         guard let engine = Self.sharedEngine else {
             return nil
         }
         self.engine = engine
         self.metadataObjectTypes = objectTypes
+        self.videoGravity = videoGravity
         self.scans = scans
         self.onScannedObjectUpdate = onScannedObjectUpdate
     }
     
     public var body: some View {
-        MetadataScannerPreview(engine: engine, metadataObjectTypes: metadataObjectTypes, scans: scans, onUpdate: onScannedObjectUpdate)
+        MetadataScannerPreview(engine: engine, videoGravity: videoGravity, metadataObjectTypes: metadataObjectTypes, scans: scans, onUpdate: onScannedObjectUpdate)
     }
     
 }

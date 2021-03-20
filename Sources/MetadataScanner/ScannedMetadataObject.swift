@@ -14,5 +14,6 @@ import AVFoundation
 
 public typealias ScannedMetadataObject = AVMetadataMachineReadableCodeObject
 public typealias ScannableObjectType = AVMetadataObject.ObjectType
+public typealias VideoGravity = AVLayerVideoGravity
 
 #endif
