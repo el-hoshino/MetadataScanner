@@ -1,6 +1,6 @@
 //
 //  PreviewBindings.swift
-//  
+//
 //
 //  Created by 史 翔新 on 2021/03/19.
 //
