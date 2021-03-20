@@ -15,8 +15,13 @@ struct ContentView: View {
     @State private var videoGravity: VideoGravity = .resizeAspect
     @State private var scans: Bool = false
     
+    private var readObjectsBinding: Binding<[ScannedMetadataObject]?> {
+        .init(get: { nil },
+              set: { readStrings = $0?.compactMap({ $0.stringValue }) })
+    }
+    
     var body: some View {
-        MetadataScanner(videoGravity: videoGravity, objectTypes: [.qr], scans: scans) { readStrings = $0?.compactMap({ $0.stringValue }) }
+        MetadataScanner(videoGravity: videoGravity, objectTypes: [.qr], scans: scans, scannedMetadataObjects: readObjectsBinding)
             .onChange(of: readStrings, perform: { value in
                 scans = value == nil
             })
