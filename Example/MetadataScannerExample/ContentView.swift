@@ -12,21 +12,16 @@ import MetadataScanner
 struct ContentView: View {
     
     @State private var readStrings: [String]?
+    @State private var videoGravity: VideoGravity = .resizeAspect
     @State private var scans: Bool = false
     
-    private var scannedObjectBinding: Binding<[AVMetadataMachineReadableCodeObject]?> {
-        return .init(get: { nil },
-                     set: {
-                        if scans {
-                            readStrings = $0?.compactMap { $0.stringValue }
-                        }
-                     })
-    }
-    
     var body: some View {
-        MetadataScanner(objectTypes: [.qr], scans: scans, scannedObject: scannedObjectBinding)
+        MetadataScanner(videoGravity: videoGravity, objectTypes: [.qr], scans: scans) { readStrings = $0?.compactMap({ $0.stringValue }) }
             .onChange(of: readStrings, perform: { value in
                 scans = value == nil
+            })
+            .onTapGesture(count: 2, perform: {
+                videoGravity.toggle()
             })
             .onTapGesture(perform: {
                 scans = true
@@ -34,6 +29,18 @@ struct ContentView: View {
             .onAppear(perform: {
                 scans = true
             })
+    }
+    
+}
+
+private extension VideoGravity {
+    
+    mutating func toggle() {
+        if self == .resizeAspect {
+            self = .resizeAspectFill
+        } else {
+            self = .resizeAspect
+        }
     }
     
 }

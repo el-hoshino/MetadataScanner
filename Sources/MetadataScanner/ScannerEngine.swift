@@ -1,6 +1,6 @@
 //
 //  ScannerEngine.swift
-//  
+//
 //
 //  Created by 史 翔新 on 2021/03/18.
 //
@@ -10,6 +10,8 @@
 import AVFoundation
 import CoreImage
 import Combine
+
+// swiftlint:disable file_types_order
 
 final class ScannerEngine: ObservableObject {
     
@@ -26,7 +28,7 @@ final class ScannerEngine: ObservableObject {
         get { return metadataOutput.metadataObjectTypes }
         set { metadataOutput.metadataObjectTypes = newValue }
     }
-            
+    
     @Published var readableMetadataObjects: [ScannedMetadataObject]?
         
     init() throws {
@@ -117,4 +119,3 @@ private final class CaptureOutputReceiver: NSObject, AVCaptureMetadataOutputObje
 }
 
 #endif
-
