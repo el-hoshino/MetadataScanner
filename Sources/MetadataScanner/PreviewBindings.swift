@@ -106,6 +106,7 @@ final class ScannerEngineUIView: UIView {
         }
         
         engine.$readableMetadataObjects
+            .dropFirst(if: { $0 == nil })
             .sink(receiveValue: onUpdate)
             .store(in: &cancellables)
         
