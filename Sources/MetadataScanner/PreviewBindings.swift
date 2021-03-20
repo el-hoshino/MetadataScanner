@@ -115,7 +115,7 @@ final class ScannerEngineUIView: UIView {
         }
         
         engine.$readableMetadataObjects
-            .dropFirst(if: { $0 == nil })
+            .dropFirst() // @Published publisher will immediately send current value at subscription, which will cause `Modifying state during view update` warning on @State variables.
             .assign(to: \.scannedMetadataObjects, on: self)
             .store(in: &cancellables)
         
