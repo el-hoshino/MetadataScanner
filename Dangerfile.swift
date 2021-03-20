@@ -1,7 +1,7 @@
 import Foundation
 import Danger
 import DangerXCodeSummary // package: https://github.com/f-meloni/danger-swift-xcodesummary.git
-import DangerSwiftCoverage // package: https://github.com/f-meloni/danger-swift-coverage.git
+//import DangerSwiftCoverage // package: https://github.com/f-meloni/danger-swift-coverage.git
 
 // swiftlint:disable file_length function_body_length optional_default_value
 
@@ -484,8 +484,7 @@ SwiftLint.lint(.modifiedAndCreatedFiles(directory: nil), inline: true, configFil
 XCodeSummary(filePath: "result.json", onlyShowSummaryInDiffFiles: true).report()
 
 // Xcode test coverage check.
-message(ProcessInfo.xcTestResultPath)
-Coverage.xcodeBuildCoverage(.xcresultBundle(ProcessInfo.xcTestResultPath), minimumCoverage: 60)
+// Coverage.xcodeBuildCoverage(.xcresultBundle(ProcessInfo.xcTestResultPath), minimumCoverage: 60)
 
 // PR routine check.
 do {
