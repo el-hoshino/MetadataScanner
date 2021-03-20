@@ -28,7 +28,7 @@ final class ScannerEngine: ObservableObject {
         get { return metadataOutput.metadataObjectTypes }
         set { metadataOutput.metadataObjectTypes = newValue }
     }
-            
+    
     @Published var readableMetadataObjects: [ScannedMetadataObject]?
         
     init() throws {
