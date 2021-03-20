@@ -6,6 +6,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Changes
+
+- Go back to Binding object on initializer (BREAKING)
+
 ## [0.3.0] - 2021-03-21
 
 ### Enhancements
