@@ -1,6 +1,6 @@
 //
 //  ScannerEngine.swift
-//  
+//
 //
 //  Created by 史 翔新 on 2021/03/18.
 //
@@ -117,4 +117,3 @@ private final class CaptureOutputReceiver: NSObject, AVCaptureMetadataOutputObje
 }
 
 #endif
-
