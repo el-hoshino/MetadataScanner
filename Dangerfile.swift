@@ -2,7 +2,6 @@ import Foundation
 import Danger
 import DangerXCodeSummary // package: https://github.com/f-meloni/danger-swift-xcodesummary.git
 import DangerSwiftCoverage // package: https://github.com/f-meloni/danger-swift-coverage.git
-import DangerSwiftHammer // package: https://github.com/el-hoshino/DangerSwiftHammer.git
 
 // swiftlint:disable file_length function_body_length optional_default_value
 
