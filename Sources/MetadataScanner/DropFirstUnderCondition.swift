@@ -21,17 +21,17 @@ extension Publishers {
         
         func receive<S>(subscriber: S) where S: Subscriber, Self.Failure == S.Failure, Self.Output == S.Input {
             
-            var count = dropCount
+            var remained = dropCount
             
             upstream.drop { (output) -> Bool in
                 
                 defer {
-                    if count > 0 {
-                        count -= 1
+                    if remained > 0 {
+                        remained -= 1
                     }
                 }
                 
-                return count > 0 && dropCondition(output)
+                return remained > 0 && dropCondition(output)
                 
             }
             .subscribe(subscriber)

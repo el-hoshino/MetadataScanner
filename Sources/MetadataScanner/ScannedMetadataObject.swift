@@ -10,6 +10,8 @@ import AVFoundation
 
 #if os(iOS)
 
+// swiftlint:disable file_types_order
+
 public typealias ScannedMetadataObject = AVMetadataMachineReadableCodeObject
 public typealias ScannableObjectType = AVMetadataObject.ObjectType
 

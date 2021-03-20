@@ -11,6 +11,8 @@ import AVFoundation
 import CoreImage
 import Combine
 
+// swiftlint:disable file_types_order
+
 final class ScannerEngine: ObservableObject {
     
     enum InitError: Error {
