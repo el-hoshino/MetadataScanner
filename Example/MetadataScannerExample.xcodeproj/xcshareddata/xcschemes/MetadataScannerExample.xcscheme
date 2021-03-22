@@ -28,6 +28,26 @@
       selectedLauncherIdentifier = "Xcode.DebuggerFoundation.Launcher.LLDB"
       shouldUseLaunchSchemeArgsEnv = "YES">
       <Testables>
+         <TestableReference
+            skipped = "NO">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "BF72E1352602816C00CB2DFD"
+               BuildableName = "MetadataScannerExampleTests.xctest"
+               BlueprintName = "MetadataScannerExampleTests"
+               ReferencedContainer = "container:MetadataScannerExample.xcodeproj">
+            </BuildableReference>
+         </TestableReference>
+         <TestableReference
+            skipped = "NO">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "BF72E1402602816C00CB2DFD"
+               BuildableName = "MetadataScannerExampleUITests.xctest"
+               BlueprintName = "MetadataScannerExampleUITests"
+               ReferencedContainer = "container:MetadataScannerExample.xcodeproj">
+            </BuildableReference>
+         </TestableReference>
       </Testables>
    </TestAction>
    <LaunchAction
