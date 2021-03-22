@@ -11,35 +11,42 @@ import MetadataScanner
 
 struct ContentView: View {
     
-    @State private var readStrings: [String]?
-    @State private var videoGravity: VideoGravity = .resizeAspect
-    @State private var scans: Bool = false
-    
-    var body: some View {
-        MetadataScanner(videoGravity: videoGravity, objectTypes: [.qr], scans: scans) { readStrings = $0?.compactMap({ $0.stringValue }) }
-            .onChange(of: readStrings, perform: { value in
-                scans = value == nil
-            })
-            .onTapGesture(count: 2, perform: {
-                videoGravity.toggle()
-            })
-            .onTapGesture(perform: {
-                scans = true
-            })
-            .onAppear(perform: {
-                scans = true
-            })
+    @State private var readString: String = ""
+    @State private var viewDidAppear: Bool = false
+    var scans: Bool {
+        readString.isEmpty
     }
     
-}
-
-private extension VideoGravity {
-    
-    mutating func toggle() {
-        if self == .resizeAspect {
-            self = .resizeAspectFill
+    @ViewBuilder
+    func ScannerView() -> some View {
+        if let scanner = MetadataScanner(videoGravity: .resizeAspectFill,
+                                         objectTypes: [.qr],
+                                         scans: viewDidAppear && scans,
+                                         onScannedObjectUpdate: {
+                                            readString = $0?.lazy.compactMap({ $0.stringValue }).first ?? ""
+                                         }) {
+            scanner
         } else {
-            self = .resizeAspect
+            Rectangle()
+                .fill(Color.black)
+        }
+    }
+    
+    var body: some View {
+        VStack {
+            ScannerView()
+                .aspectRatio(1.5, contentMode: .fit)
+            TextField("Searching for QRCode...", text: $readString)
+                .disabled(true)
+            Spacer()
+            Button("Rescan", action: { readString = "" })
+                .disabled(scans)
+        }
+        .onAppear {
+            viewDidAppear = true
+        }
+        .onDisappear {
+            viewDidAppear = false
         }
     }
     
